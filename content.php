@@ -58,7 +58,7 @@ if(mysqli_num_rows($result2) == 1) {
                 </li>
                 <li>
                   <a href="#">
-                  <i class="far fa-user"></i>
+                  <i class="fas fa-user"></i>
                     <p>User</p>
                   </a>
                 </li>
@@ -130,7 +130,7 @@ if(mysqli_num_rows($result2) == 1) {
                 else if($_SESSION["level"]=="label"){
                   ?>
                     <li>Label</li>
-                    <li><i class="fas fa-user-tag"></i></li>
+                    <li><i class="fas fa-user-tag" style="color:#bfbfbf;"></i></li>
                   <?php
                 }
                 else if($_SESSION["level"]=="user"){

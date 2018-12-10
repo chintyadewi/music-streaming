@@ -22,20 +22,20 @@ switch($_GET["act"]){
                 <div class="col-12">
                     <div class="card card-chart">
                     <div class="card-header ">
-                        <div class="row"><?php
-                            $query = "SELECT * FROM lagu";
+                        <div class="row p-5"><?php
+                            $query = "SELECT * from lagu l inner join artis a on a.id_artis=l.id_artis order by l.tgl_rilis desc limit 8";
                             $result = mysqli_query($con, $query);
                             if (mysqli_num_rows($result) > 0){
                                 $index = 1;
                                 while($row = mysqli_fetch_assoc($result)){
-                                    $id_barang = $row["id_lagu"];
+                                    $id_lagu = $row["id_lagu"];
                                     ?>
-                                    <div class="col-3" id=<?php echo $row["file"]; ?>>
-                                    <div class="card lagu">
-                                    <img class="card-img-top" src="images/woman.jpg" alt="Card image cap">
+                                    <div class="col-3" id=<?php echo $row["id_lagu"]; ?>>
+                                    <div class="card data">
+                                    <img class="card-img-top" width="100%" height="30%" src="images/cover/<?php echo $row["cover"]; ?>" alt="Card image cap">
                                         <div class="card-body text-center">
                                             <h5 class="card-title m-0"><strong><?php echo $row["judul"]; ?></strong></h5>
-                                            <p class="card-text m-0"><?php echo $row["id_artis"]; ?></p>
+                                            <p class="card-text m-0"><?php echo $row["nama"]; ?></p>
                                             <a href="#" class="btn btn-primary mt-3 pl-4 pr-4 pt-2 pb-2">PLAY</a>
                                         </div>
                                     </div>
@@ -111,4 +111,3 @@ switch($_GET["act"]){
 
             }
             ?>
-
