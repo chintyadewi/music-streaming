@@ -265,16 +265,16 @@ elseif ($_GET['module']=='label'){
 	include "tables/label.php";
 }
 
-elseif ($_GET['module']=='dt_wali'){
-	include "modul/mod_wali/wali.php";
+elseif ($_GET['module']=='user'){
+	include "tables/user.php";
 }
 
-elseif ($_GET['module']=='dt_kd'){
-	include "modul/mod_kd/kd.php";
+elseif ($_GET['module']=='artis'){
+	include "tables/artis.php";
 }
 
-elseif ($_GET['module']=='dt_sk'){
-	include "modul/mod_sk/sk.php";
+elseif ($_GET['module']=='album'){
+	include "tables/album.php";
 }
 
 elseif ($_GET['module']=='dt_bidangstu'){

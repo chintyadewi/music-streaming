@@ -20,10 +20,8 @@
                 header('location:../content.php?module='.$module);
             }
             
-            if(file_exists($path)){
-                ?><script>alert("File dengan nama yang sama sudah tersimpan, coba lagi"); </script><?php
-                $upload_check=true;
-                header('location:../content.php?module='.$module);
+            if($upload_check==false){
+                unlink($nama_file);
             }
             if(!$upload_check AND move_uploaded_file($tmp,$path)){ 
                 mysqli_query($con,"insert into user(username, password, nama, email, foto, level) values('$_POST[username]',md5('$_POST[password]'),'$_POST[nama]', '$_POST[email]', '$nama_file', 'label')");
@@ -56,7 +54,7 @@
                         header('location:../content.php?module='.$module);
                     }
                     if($upload_check==false){
-                        unlink($_POST["foto_lama"]);
+                        unlink($nama_file);
                     }
                     if(!$upload_check and move_uploaded_file($tmp,$path)){
                         mysqli_query($con,"update label set nama='$_POST[nama]' where id_label=$_POST[id_label]");
@@ -67,7 +65,7 @@
                     }
                     else{
                         ?><script>alert("Upload gambar gagal!"); </script><?php
-                        header("Location: ../content.php?module='.$module");
+                        header('location:../content.php?module='.$module);
                     }
                 }
             }else if($_FILES["foto"]["name"]=="" && $_POST["password"]==""){ 
@@ -108,7 +106,7 @@
                     }
                     else{
                         ?><script>alert("Upload gambar gagal!"); </script><?php
-                        header("Location: ../content.php?module='.$module");
+                        header('location:../content.php?module='.$module);
                     }
                 }
             }

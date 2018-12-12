@@ -57,19 +57,19 @@ if(mysqli_num_rows($result2) == 1) {
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="?module=user">
                   <i class="fas fa-user"></i>
                     <p>User</p>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="?module=artis">
                   <i class="fas fa-users"></i>
                     <p>Artis</p>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="?module=album">
                   <i class="fas fa-dot-circle"></i>
                     <p>Album</p>
                   </a>

@@ -134,9 +134,11 @@ switch($_GET["act"]){
                 ?>
 
                 <h3>Edit Label</h3>
-                <form action=<?php echo "$proses?module=label&act=update"; ?> enctype="multipart/form-data" method="POST" class="ml-5">
+                <div class="row">
+                    <div class="col-8">
+                    <form action=<?php echo "$proses?module=label&act=update"; ?> enctype="multipart/form-data" method="POST" class="ml-5">
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label for="nama">Nama Label</label>
                             <input type="hidden" class="form-control" name="id_label" value="<?php echo $data['id_label']; ?>">
                             <input type="text" class="form-control" name="nama" value="<?php echo $data['nama']; ?>" placeholder="Nama" required>
@@ -146,34 +148,40 @@ switch($_GET["act"]){
                         <h4>Akun</h4>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-5">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" name="username" value="<?php echo $data['username']; ?>" placeholder="username" required>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-5">
                             <label for="password">Password</label>
                             <input type="password" class="form-control" name="password" placeholder="password">
                         </div>
                     </div>
                     <div class="form-row mt-3">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="foto">Foto Profil</label>
                             <input type="file" class="form-control" name="foto" placeholder="">
                             <input type="hidden" name="foto_lama" value="<?php echo $data["foto"] ?>">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label for="foto">Email</label>
                             <input type="email" class="form-control" name="email" placeholder="email" value="<?php echo $data['email']; ?>" required>
                         </div>
                     </div>
                     <div class="form-row mt-3">
-                        <div class="col-md-8 text-right">
+                        <div class="col-md-11 text-right">
                             <button type="reset" class="btn btn-warning">Reset</button>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
                     </form>
+                    </div>
 
+                    <div class="col-3">
+                        <img class="rounded-circle" width="90%" height="200px" src="images/profil/<?php echo $data["foto"];?>" alt="Cover Image">
+                    </div>
+                </div>
+                
                 <?php
             }
             ?>
