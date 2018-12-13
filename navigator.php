@@ -1,33 +1,85 @@
 <?php
-  $result1=mysqli_query($con,"select count(id_lagu) from lagu");
-  $row1=mysqli_fetch_assoc($result1);
-  $totalLagu=$row1["count(id_lagu)"];
+    $result1=mysqli_query($con,"select count(id_lagu) from lagu");
+    $row1=mysqli_fetch_assoc($result1);
+    $totalLagu=$row1["count(id_lagu)"];
 
-  $result2=mysqli_query($con,"select count(id_album) from album");
-  $row2=mysqli_fetch_assoc($result2);
-  $totalAlbum=$row2["count(id_album)"];
+    $result2=mysqli_query($con,"select count(id_album) from album");
+    $row2=mysqli_fetch_assoc($result2);
+    $totalAlbum=$row2["count(id_album)"];
 
-  $result3=mysqli_query($con,"select count(id_genre) from genre");
-  $row3=mysqli_fetch_assoc($result3);
-  $totalGenre=$row3["count(id_genre)"];
+    $result3=mysqli_query($con,"select count(id_genre) from genre");
+    $row3=mysqli_fetch_assoc($result3);
+    $totalGenre=$row3["count(id_genre)"];
 
-  $result4=mysqli_query($con,"select count(id_artis) from artis");
-  $row4=mysqli_fetch_assoc($result4);
-  $totalArtis=$row4["count(id_artis)"];
+    $result4=mysqli_query($con,"select count(id_artis) from artis");
+    $row4=mysqli_fetch_assoc($result4);
+    $totalArtis=$row4["count(id_artis)"];
 
-  $result5=mysqli_query($con,"select count(id_label) from label");
-  $row5=mysqli_fetch_assoc($result5);
-  $totalLabel=$row5["count(id_label)"];
+    $result5=mysqli_query($con,"select count(id_label) from label");
+    $row5=mysqli_fetch_assoc($result5);
+    $totalLabel=$row5["count(id_label)"];
 
-  $result6=mysqli_query($con,"select count(id_user) from user");
-  $row6=mysqli_fetch_assoc($result6);
-  $totalUser=$row6["count(id_user)"];
+    $result6=mysqli_query($con,"select count(id_user) from user");
+    $row6=mysqli_fetch_assoc($result6);
+    $totalUser=$row6["count(id_user)"];
+
+    $result7=mysqli_query($con,"select count(id_artis) from subscription where id_user='$_SESSION[id]'");
+    $row7=mysqli_fetch_assoc($result7);
+    $totalSubscribe=$row7["count(id_artis)"];
 ?>
 
 
 <?php
 if ($_GET['module']=='home'){
 	?>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-chart">
+              <div class="card-header ">
+                <div class="row">
+                  <div class="col-sm-6 text-left">
+                    <h5 class="card-category">Subscription</h5>
+                    <h3 class="card-title"><i class="fas fa-thumbs-up text-primary mr-2"></i><?php echo $totalSubscribe; ?></h3>
+                  </div>
+                </div>
+                <div class="row ml-3 mr-3"><?php
+                    $query = "select a.*, b.nama as artis, b.foto from subscription a, artis b where a.id_artis=b.id_artis and a.id_user=$_SESSION[id] order by a.id_artis desc limit 4";
+                    $result = mysqli_query($con, $query);
+                    if (mysqli_num_rows($result) > 0){
+                        while($row = mysqli_fetch_assoc($result)){
+                            $id_artis = $row["id_artis"];
+                            ?>
+                            <div class="col-3" id=<?php echo $row["id_artis"]; ?>>
+                                <div class="card data">
+                                <a href="?module=artis&act=detail&id=<?php echo $id_artis; ?>">
+                                    <img class="card-img-top" width="100%" height="30%" src="images/artis/<?php echo $row["foto"]; ?>" alt="Card image cap">
+                                </a>
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title m-0"><strong><?php echo $row["artis"]; ?></strong></h5>
+                                            <?php
+                                                $subscribe=mysqli_query($con,"select * from subscription where id_user=$_SESSION[id] and id_artis=$row[id_artis]");
+                                                if(mysqli_num_rows($subscribe)>0){
+                                                    ?><a href="#" class="btn btn-primary mt-3 pl-4 pr-4 pt-2 pb-2">Disubscribe</a><?php 
+                                                }
+                                                else{
+                                                    ?><a href="#" class="btn btn-primary mt-3 pl-4 pr-4 pt-2 pb-2">Subscribe</a><?php
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php ;
+                            }
+                        }else{
+                            ?><div class="col-12 text-center">Data Kosong</div><?php
+                        }
+                        ?>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
     <div class="row text-capitalize">
           <div class="col-12">
             <div class="card card-chart">
@@ -39,7 +91,7 @@ if ($_GET['module']=='home'){
                   </div>
                 </div>
                 <div class="row ml-3 mr-3"><?php
-                            $query = "SELECT * from lagu l inner join artis a on a.id_artis=l.id_artis order by l.tgl_rilis desc limit 8";
+                            $query = "SELECT * from lagu l inner join artis a on a.id_artis=l.id_artis order by l.tgl_rilis desc limit 4";
                             $result = mysqli_query($con, $query);
                             if (mysqli_num_rows($result) > 0){
                                 $index = 1;
@@ -78,7 +130,7 @@ if ($_GET['module']=='home'){
                   </div>
                 </div>
                 <div class="row ml-3 mr-3"><?php
-                            $query = "SELECT a.*, b.nama as 'artis' FROM album a, artis b where a.id_artis=b.id_artis order by a.tgl_rilis desc limit 8 ";
+                            $query = "SELECT a.*, b.nama as 'artis' FROM album a, artis b where a.id_artis=b.id_artis order by a.tgl_rilis desc limit 4";
                             $result = mysqli_query($con, $query);
                             if (mysqli_num_rows($result) > 0){
                                 $index = 1;
@@ -117,7 +169,7 @@ if ($_GET['module']=='home'){
                   </div>
                 </div>
                 <div class="row ml-3 mr-3"><?php
-                            $query = "SELECT * FROM artis order by id_artis desc limit 8 ";
+                            $query = "SELECT * FROM artis order by id_artis desc limit 4";
                             $result = mysqli_query($con, $query);
                             if (mysqli_num_rows($result) > 0){
                                 $index = 1;
@@ -155,7 +207,7 @@ if ($_GET['module']=='home'){
                   </div>
                 </div>
                 <div class="row ml-3 mr-3"><?php
-                            $query = "SELECT * FROM genre limit 8";
+                            $query = "SELECT * FROM genre limit 4";
                             $result = mysqli_query($con, $query);
                             if (mysqli_num_rows($result) > 0){
                                 $index = 1;
@@ -192,7 +244,7 @@ if ($_GET['module']=='home'){
                   </div>
                 </div>
                 <div class="row ml-3 mr-3"><?php
-                            $query = "SELECT a.*, b.foto FROM label a, user b where a.id_user=b.id_user order by a.id_label desc limit 8";
+                            $query = "SELECT a.*, b.foto FROM label a, user b where a.id_user=b.id_user order by a.id_label desc limit 4";
                             $result = mysqli_query($con, $query);
                             if (mysqli_num_rows($result) > 0){
                                 $index = 1;
@@ -227,7 +279,7 @@ if ($_GET['module']=='home'){
                     </div>
                   </div>
                   <div class="row ml-3 mr-3"><?php
-                              $query = "SELECT * from user where level='user' order by id_user desc limit 8";
+                              $query = "SELECT * from user where level='user' order by id_user desc limit 4";
                               $result = mysqli_query($con, $query);
                               if (mysqli_num_rows($result) > 0){
                                   $index = 1;
@@ -277,13 +329,14 @@ elseif ($_GET['module']=='album'){
 	include "tables/album.php";
 }
 
-elseif ($_GET['module']=='dt_bidangstu'){
-	include "modul/mod_bidangstu/bidangstu.php";
+elseif ($_GET['module']=='genre'){
+	include "tables/genre.php";
 }
 
-elseif ($_GET['module']=='dt_kompke'){
-	include "modul/mod_kompke/kompke.php";
+elseif ($_GET['module']=='playlist'){
+	include "tables/playlist.php";
 }
+
 elseif ($_GET['module']=='laporan'){
 	include "modul/mod_laporan/laporan.php";
 }

@@ -48,14 +48,14 @@ switch($_GET["act"]){
                     <h3 class="card-title"><i class="fas fa-user-cog text-primary mr-2"></i><?php echo $totalAdmin; ?></h3>
                   </div>
                 </div>
-                <div class="row ml-3 mr-3"><?php
+                <div class="row ml-3 mr-3 mb-5"><?php
                     $query = "SELECT * from user where level='admin' order by id_user desc";
                     $result = mysqli_query($con, $query);
                     if (mysqli_num_rows($result) > 0){
                         while($row = mysqli_fetch_assoc($result)){
                             $id_user = $row["id_user"];
                             ?>
-                            <div class="col-6 mb-5" id=<?php echo $row["id_user"]; ?>>
+                            <div class="col-6 mt-4" id=<?php echo $row["id_user"]; ?>>
                             <div class="row">
                             <div class="col-4">
                             <img class="card-img-top rounded-circle" width="100%" height="125px" src="images/profil/<?php echo $row["foto"];?>" alt="Cover Image">
@@ -91,14 +91,14 @@ switch($_GET["act"]){
                     <h3 class="card-title"><i class="fas fa-user-tag text-success mr-2"></i><?php echo $totalLabel; ?></h3>
                   </div>
                 </div>
-                <div class="row ml-3 mr-3"><?php
+                <div class="row ml-3 mr-3 mb-5"><?php
                     $query = "SELECT a.*, b.* from user a, label b where a.id_user=b.id_user and a.level='label' order by a.id_user desc";
                     $result = mysqli_query($con, $query);
                     if (mysqli_num_rows($result) > 0){
                         while($row = mysqli_fetch_assoc($result)){
                             $id_label= $row["id_label"];
                             ?>
-                            <div class="col-6 mb-5" id=<?php echo $row["id_user"]; ?>>
+                            <div class="col-6 mt-4" id=<?php echo $row["id_user"]; ?>>
                             <div class="row">
                             <div class="col-4">
                             <img class="card-img-top rounded-circle" width="100%" height="125px" src="images/profil/<?php echo $row["foto"];?>" alt="Cover Image">
@@ -134,14 +134,14 @@ switch($_GET["act"]){
                     <h3 class="card-title"><i class="fas fa-user-tag text-warning mr-2"></i><?php echo $totalUser; ?></h3>
                   </div>
                 </div>
-                <div class="row ml-3 mr-3"><?php
+                <div class="row ml-3 mr-3 mb-5"><?php
                     $query = "SELECT * from user where level='user' order by id_user desc";
                     $result = mysqli_query($con, $query);
                     if (mysqli_num_rows($result) > 0){
                         while($row = mysqli_fetch_assoc($result)){
                             $id_user = $row["id_user"];
                             ?>
-                            <div class="col-6 mb-5" id=<?php echo $row["id_user"]; ?>>
+                            <div class="col-6 mt-4" id=<?php echo $row["id_user"]; ?>>
                             <div class="row">
                             <div class="col-4">
                             <img class="card-img-top rounded-circle" width="100%" height="125px" src="images/profil/<?php echo $row["foto"];?>" alt="Cover Image">

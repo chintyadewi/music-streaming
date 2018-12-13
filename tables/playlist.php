@@ -1,12 +1,16 @@
 <?php error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 
-$result=mysqli_query($con,"select count(id_artis) from subscription where id_user='$_SESSION[id]'");
+$result=mysqli_query($con,"select count(id_playlist) from playlist where id_user='$_SESSION[id]'");
 $row=mysqli_fetch_assoc($result);
-$totalSubscribe=$row["count(id_artis)"];
+$totalPlaylistMu=$row["count(id_playlist)"];
+
+$result1=mysqli_query($con,"select count(id_playlist) from playlist");
+$row1=mysqli_fetch_assoc($result1);
+$totalPlaylist=$row["count(id_playlist)"];
 
 ?>
 <?php
-$proses='proses/prosesArtis.php';
+$proses='proses/prosesPlaylist.php';
 switch($_GET["act"]){
     default:
             /***** Get get error message from actionAddBarang.php ******/
@@ -20,7 +24,7 @@ switch($_GET["act"]){
             ?>
             <div class="row">
                 <div class="col-6">
-                    <h2 class="mt-3">Daftar Artis</h2>
+                    <h2 class="mt-3">Daftar Playlist</h2>
                 </div>
                 <div class="col-6 text-right">
                     <a href="?module=artis&act=tambah" class="btn btn-primary mt-3"><i class="fas fa-plus"></i></a>
@@ -33,55 +37,64 @@ switch($_GET["act"]){
               <div class="card-header ">
                 <div class="row">
                   <div class="col-sm-6 text-left">
-                    <h5 class="card-category">Subscription</h5>
-                    <h3 class="card-title"><i class="fas fa-thumbs-up text-primary mr-2"></i><?php echo $totalSubscribe; ?></h3>
+                    <h5 class="card-category">Playlist Mu</h5>
+                    <h3 class="card-title"><i class="fas fa-thumbs-up text-primary mr-2"></i><?php echo $totalPlaylistMu; ?></h3>
                   </div>
                 </div>
-                <div class="row ml-3 mr-3"><?php
-                    $query = "select a.*, b.nama as artis, b.foto from subscription a, artis b where a.id_artis=b.id_artis and a.id_user=$_SESSION[id] order by a.id_artis desc";
-                    $result = mysqli_query($con, $query);
-                    if (mysqli_num_rows($result) > 0){
-                        while($row = mysqli_fetch_assoc($result)){
-                            $id_artis = $row["id_artis"];
-                            ?>
-                            <div class="col-3" id=<?php echo $row["id_artis"]; ?>>
-                                        <div class="card data">
-                                        <div class="text-right p-0" style="position:absolute; right:-8px;">
-                                            <a href='?module=artis&act=edit&id=<?php echo $id_artis; ?>' class='btn btn-success pr-3 pl-3 mt-0'><i class="fas fa-edit"></i></a><br>
+                <div class="row ml-3 mr-3">
+                    <div class="col-12">
+                        <table id="playlist" class="table table-stripped text-center mt-3" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama Playlist</th>
+                                    <th>Tanggal Buat</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $query = "select * from playlist where id_user=$_SESSION[id] order by tgl_buat desc";
+                            $result = mysqli_query($con, $query);
+                            if (mysqli_num_rows($result) > 0){
+                                $index = 1;
+                                while($row = mysqli_fetch_assoc($result)){
+                                    $id_playlist = $row["id_playlist"];
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $index++; ?></td>
+                                        <td><?php echo $row["nama"]; ?></td>
+                                        <td><?php echo $row["tgl_buat"]; ?></td>
+                                        <td>
+                                            <a href='?module=album&act=edit&id=<?php echo $id_album; ?>' class='btn btn-success pr-3 pl-3 mt-0'><i class="fas fa-edit"></i></a>
                                             <a href='$proses/actionDeleteBarang.php?id=$id_label' class='btn btn-danger pl-3 pr-3 mt-0'><i class='far fa-trash-alt'></i></a>
-                                        </div>
-                                        <a href="?module=artis&act=detail&id=<?php echo $id_artis; ?>">
-                                            <img class="card-img-top" width="100%" height="30%" src="images/artis/<?php echo $row["foto"]; ?>" alt="Card image cap">
-                                        </a>
-                                                <div class="card-body text-center">
-                                                    <h5 class="card-title m-0"><strong><?php echo $row["artis"]; ?></strong></h5>
-                                                    <?php
-                                                    $subscribe=mysqli_query($con,"select * from subscription where id_user=$_SESSION[id] and id_artis=$row[id_artis]");
-                                                    if(mysqli_num_rows>0){
-                                                        ?><a href="#" class="btn btn-primary mt-3 pl-4 pr-4 pt-2 pb-2">Subscribe</a><?php 
-                                                    }
-                                                    else{
-                                                        ?><a href="#" class="btn btn-primary mt-3 pl-4 pr-4 pt-2 pb-2">Disubscribe</a><?php
-                                                    }
-                                                    ?>
-                                                    
-                                                </div>
-                                            </div>
-                                    </div>
-                                <?php ;
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
                             }
-                        }else{
-                            ?><div class="col-12 text-center">Data Kosong</div><?php
-                        }
-                        ?>
+                            mysqli_close($con); 
+                            ?>
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+                <script>
+                    $(document).ready(function() {
+                        $('#playlist').DataTable({
+                            "lengthMenu":[5,10,15,20],
+                            "pageLength":5
+                        });
+
+                    } );
+                </script>
               </div>
             </div>
-          </div>
         </div>
-
-            <div class="row">
-                <div class="col-12">
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
                     <div class="card card-chart">
                     <div class="card-header ">
                         <div class="row">
@@ -136,7 +149,7 @@ switch($_GET["act"]){
                 break; 
 
             case 'detail':
-                $detail=mysqli_query($con,"select * from artis where id_artis=$_GET[id]");
+                $detail=mysqli_query($con,"select a.*, b.nama as lagu from detail_playlist a, lagu b where a.id_lagu=b.id_lagu and a.id_playlist=$_GET[id] and a.id_user=$_SESSION[id]");
                 $data=mysqli_fetch_assoc($detail);
                 ?>
 

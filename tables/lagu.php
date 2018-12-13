@@ -14,18 +14,18 @@ switch($_GET["act"]){
             }
             ?>
             <div class="row">
-            <div class="col-6">
-                <h2 class="mt-3">Daftar Lagu</h2>
+                <div class="col-6">
+                    <h2 class="mt-3">Daftar Lagu</h2>
+                </div>
+                <div class="col-6 text-right">
+                    <a href="?module=lagu&act=tambah" class="btn btn-primary mt-3"><i class="fas fa-plus"></i></a>
+                </div>
             </div>
-            <div class="col-6 text-right">
-                <a href="?module=lagu&act=tambah" class="btn btn-primary mt-3"><i class="fas fa-plus"></i></a>
-            </div>
-        </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card card-chart">
                     <div class="card-header ">
-                        <div class="row p-5"><?php
+                        <div class="row ml-3 mr-3 mt-4"><?php
                             $query = "SELECT * from lagu l inner join artis a on a.id_artis=l.id_artis order by l.tgl_rilis desc limit 8";
                             $result = mysqli_query($con, $query);
                             if (mysqli_num_rows($result) > 0){
@@ -35,15 +35,15 @@ switch($_GET["act"]){
                                     ?>
                                     <div class="col-3" id=<?php echo $row["id_lagu"]; ?>>
                                     <div class="card data">
-                                    <div class="text-right p-0" style="position:absolute; right:0;">
-                                        <a href='$proses/actionDeleteBarang.php?id=$id_label' class='btn btn-danger pl-3 pr-3'><i class='far fa-trash-alt'></i></a>
+                                    <div class="text-right p-0" style="position:absolute; right:-8px;">
+                                        <a href='?module=lagu&act=edit&id=<?php echo $id_lagu; ?>' class='btn btn-success pr-3 pl-3 mt-0'><i class="fas fa-edit"></i></a><br>
+                                        <a href='$proses/actionDeleteBarang.php?id=$id_label' class='btn btn-danger pl-3 pr-3 mt-0'><i class='far fa-trash-alt'></i></a>
                                     </div>
                                     <img class="card-img-top" width="100%" height="30%" src="images/cover/<?php echo $row["cover"]; ?>" alt="Card image cap">
                                         <div class="card-body text-center">
                                             <h5 class="card-title m-0"><strong><?php echo $row["judul"]; ?></strong></h5>
                                             <p class="card-text m-0"><?php echo $row["nama"]; ?></p>
                                             <a href="#" class="btn btn-primary mt-3 pl-4 pr-4 pt-2 pb-2">PLAY</a>
-                                            <a href='?module=lagu&act=edit&id=<?php echo $id_lagu; ?>' class='btn btn-success mt-3 pl-4 pr-4 pt-2 pb-2'>EDIT</i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@ switch($_GET["act"]){
                 break;
                 
                 case 'edit': 
-                    $edit=mysqli_query($con,"select a.*, b.*, b.nama as genre, c.*,c.nama as artis, d.*, d.nama as label, e.*, e.nama as album from lagu a, genre b, artis c, label d, album e where a.id_genre=b.id_genre and a.id_artis=c.id_artis and a.id_label=d.id_label and a.id_album=e.id_album and a.id_lagu=$_GET[id]");
+                    $edit=mysqli_query($con,"select a.*, b.*, a.cover as coverLagu, b.nama as genre, c.*,c.nama as artis, d.*, d.nama as label, e.*, e.nama as album from lagu a, genre b, artis c, label d, album e where a.id_genre=b.id_genre and a.id_artis=c.id_artis and a.id_label=d.id_label and a.id_album=e.id_album and a.id_lagu=$_GET[id]");
                     $data=mysqli_fetch_assoc($edit);
                 ?>
                 <h3>Edit Lagu</h3>
@@ -240,10 +240,10 @@ switch($_GET["act"]){
 
                     <div class="col-3">
                         <div class="col-12" id=<?php echo $data["id_lagu"]; ?>>
-                        <img class="card-img-top" width="100%" height="30%" src="images/cover/<?php echo $data["cover"]; ?>" alt="Card image cap">
+                        <img class="card-img-top" width="100%" height="30%" src="images/cover/<?php echo $data["coverLagu"]; ?>" alt="Card image cap">
                             <div class="card-body text-center">
                                 <h5 class="card-title m-0"><strong><?php echo $data["judul"]; ?></strong></h5>
-                                <p class="card-text m-0"><?php echo $data["artis"]; ?></p>
+                                <p class="card-text m-0"><?php echo $data["album"]." - ".$data["artis"]; ?></p>
                                 <p class="card-text mt-2"><?php echo $data["label"]; ?></p>
                             </div>
                     </div>
@@ -258,7 +258,7 @@ switch($_GET["act"]){
                 document.getElementById('audio').addEventListener('canplaythrough', function(e){
                                 //add duration in the input field #f_du
                 f_duration = Math.round(e.currentTarget.duration);
-                document.getElementById('durasi').value = f_duration/60;
+                document.getElementById('durasi').value = (f_duration/60).toFixed(1);
                 URL.revokeObjectURL(obUrl);
                                 });
                 var obUrl;
@@ -270,4 +270,4 @@ switch($_GET["act"]){
                     document.getElementById('audio').setAttribute('src', obUrl);
                 }
                 });
-            // </script>
+               </script>

@@ -81,13 +81,13 @@ if(mysqli_num_rows($result2) == 1) {
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="?module=genre">
                     <i class="fab fa-gratipay"></i>
                     <p>Genre</p>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="?module=playlist">
                   <i class="fas fa-list-ul"></i>
                     <p>Playlist</p>
                   </a>
