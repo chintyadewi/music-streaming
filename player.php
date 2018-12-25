@@ -1,3 +1,9 @@
+<?php
+
+include 'config/koneksi.php';
+$lagu=mysqli_fetch_assoc(mysqli_query($con, "select * from lagu where id_lagu=$_GET[id_lagu]"));
+
+?>
 <div class="container-fluid m-0 fixed-bottom text-white pt-3 border-bottom" style="background-color:#222a42;" id="player">
         <div class="row">
             <div class="col-4 offset-4">
@@ -14,7 +20,7 @@
                 </div>
                 <div class="row pt-2">
                     <audio id="song" ontimeupdate="updateTime()">
-                        <source src="Till You Drop - ItaloBrothers.mp3" type="audio/mp3"/>
+                        <source src="songs/<?php echo $lagu["file"];?>" type="audio/mp3"/>
                         Your browser does not support the audio tag.
                     </audio>
                     <div class="col-1" id="songTimeCurrent">0:00</div>
@@ -32,3 +38,5 @@
             </div>
         </div>
     </div>
+
+    <?php include 'linkJs.php'?>
