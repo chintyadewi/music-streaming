@@ -6,6 +6,7 @@
 
     if($module=='label' && $proses=='input'){
         $code=$_FILES["foto"]["error"];
+        print_r($code);
         if($code===0){
             $nama_folder="../images/profil";
             $tmp=$_FILES["foto"]["tmp_name"];
@@ -20,21 +21,21 @@
                 header('location:../content.php?module='.$module);
             }
             
-            if($upload_check==false){
+            if(file_exists($path)){
                 unlink($nama_file);
             }
             if(!$upload_check AND move_uploaded_file($tmp,$path)){ 
-                mysqli_query($con,"insert into user(username, password, nama, email, foto, level) values('$_POST[username]',md5('$_POST[password]'),'$_POST[nama]', '$_POST[email]', '$nama_file', 'label')");
-                $result=mysqli_query($con,"select * from user where username='$_POST[username]' and password=md5('$_POST[password]')");
-                $row=mysqli_fetch_assoc($result);
-                mysqli_query($con,"insert into label(nama, id_user) values ('$_POST[nama]',$row[id_user])");
-                header('location:../content.php?module='.$module); 
-                mysqli_close($con);      
+                mysqli_query($con,"insert into user (username, password, nama, email, foto, level) values('$_POST[username]',md5('$_POST[password]'),'$_POST[nama]', '$_POST[email]', '$nama_file', 'label')");
+
+                mysqli_query($con,"insert into label (nama, id_user, flag) values ('$_POST[nama]',(select max(id_user) from user),'1')");
+                
+                mysqli_close($con);
+                header('location:../content.php?module='.$module);    
             }
             else{?>
                 <script>alert("Upload Gambar Gagal! Cek kembali ekstensi file anda (*.jpeg,*.jpg,*.png)")</script> 
                 <?php 
-                header('location:../content.php?module='.$module);
+                
             }
         }
     }else if($module=='label' && $proses=='update'){
@@ -53,7 +54,7 @@
                         $upload_check=true;
                         header('location:../content.php?module='.$module);
                     }
-                    if($upload_check==false){
+                    if(file_exists($path)){
                         unlink($nama_file);
                     }
                     if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -94,7 +95,7 @@
                         ?><script>alert("Cek kembali ekstensi file anda (*.jpeg,*.jpg,*.png)"); </script><?php
                         $upload_check=true;
                     }
-                    if($upload_check==false){
+                    if(file_exists($path)){
                         unlink($_POST["foto_lama"]);
                     }
                     if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -114,6 +115,19 @@
             // close mysql connection
             mysqli_close($con);
         }
+    
+    else if($module=='label' && $proses=='delete'){
+        $query="update label set flag='0' where id_label=$_GET[id]";
+        $detail=mysqli_query($con, "select id_user from label where id_label=$_GET[id]");
+        $query2="delete from user where id_user=$detail[id_user]";
+
+        if(mysqli_query($con, $query) && mysqli_query($query2)){
+            header('location:../content.php?module='.$module);
+        }
+        else{
+            ?><script>alert("Label gagal dihapus");document.location.href="../content.php?module=album";</script><?php
+        }
+    }
 ?>
 
 

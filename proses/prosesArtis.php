@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../config/koneksi.php";
 
 $module=$_GET["module"];
@@ -19,7 +20,7 @@ if($module=="artis" && $proses=="input"){
                 $upload_check=true;
                 header('location:../content.php?module='.$module);
             }
-            if($upload_check==false){
+            if(file_exists($path)){
                 unlink($nama_file);
             }
             if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -49,7 +50,7 @@ else if($module=="artis" && $proses=="update"){
                     $upload_check=true;
                     header('location:../content.php?module='.$module);
                 }
-                if($upload_check==false){
+                if(file_exists($path)){
                     unlink($_POST["foto_lama"]);
                 }
                 if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -69,6 +70,19 @@ else if($module=="artis" && $proses=="update"){
     $total_album=$data2["count(id_artis)"];
         
     mysqli_query($con, "update artis set nama='$_POST[nama]', total_lagu=$total_lagu, total_album=$total_album, info='$_POST[info]' where id_artis=$_POST[id_artis]");
+    header('location:../content.php?module='.$module);
+}
+
+else if($module=="artis" && $proses=="subscribe"){
+    mysqli_query($con, "insert into subscription (id_user, id_artis) values($_SESSION[id], $_GET[id])");
+    header('location:../content.php?module='.$module);
+}
+else if($module=="artis" && $proses=="unsubscribe"){
+    mysqli_query($con, "delete from subscription where id_user=$_SESSION[id] and id_artis=$_GET[id]");
+    header('location:../content.php?module='.$module);
+}
+else if($module=="artis" && $proses=="delete"){
+    mysqli_query($con, "update artis set flag='0' where id_artis=$_GET[id]");
     header('location:../content.php?module='.$module);
 }
 ?>

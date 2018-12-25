@@ -19,7 +19,7 @@ if($module=="genre" && $proses=="input"){
                 $upload_check=true;
                 header('location:../content.php?module='.$module);
             }
-            if($upload_check==false){
+            if(file_exists($path)){
                 unlink($nama_file);
             }
             if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -63,6 +63,11 @@ else if($module=="genre" && $proses=="update"){
         }
     
     mysqli_query($con, "update genre set nama='$_POST[nama]' where id_genre=$_POST[id_genre]");
+    header('location:../content.php?module='.$module);
+}
+
+else if($module=="genre" && $proses=="delete"){
+    mysqli_query($con, "update genre set flag='0' where id_genre=$_GET[id]");
     header('location:../content.php?module='.$module);
 }
 ?>

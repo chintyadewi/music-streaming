@@ -20,8 +20,8 @@
                             $upload_check=true;
                             header('location:../content.php?module='.$module);
                         }
-                        if($upload_check==false){
-                            unlink($_POST["cover_lama"]);
+                        if(file_exists($path)){
+                            unlink("$nama_folder/$nama_file");
                         }
                         if(!$upload_check and move_uploaded_file($tmp,$path)){
                             mysqli_query($con, "update artis set total_album=(total_album+1) where id_artis=$_POST[artis]");
@@ -39,14 +39,14 @@
 	    header('location:../content.php?module=album&act=detail&id='.$inserted["max(id_album)"]);
     }
 
-    else if($module=="album" && $proses=="tambahDetail"){
+    else if($module=="album" && $proses=="addDetail"){
         mysqli_query($con, "update lagu set id_album=$_GET[album] where id_lagu=$_GET[id]");
-        header('location:../content.php?module=album&act=detail&id='.$_GET["id"]);
+        header('location:../content.php?module=album&act=detail&id='.$_GET["album"]);
     }
 
     else if($module=="album" && $proses=="removeSong"){
         mysqli_query($con, "update lagu set id_album=null where id_lagu=$_GET[id]");
-        header('location:../content.php?module=album&act=detail&id='.$_GET["id"]);
+        header('location:../content.php?module=album&act=detail&id='.$_GET["album"]);
     }
 
     else if($module=='album' && $proses=='inputNew'){
@@ -73,8 +73,8 @@
                         $upload_check=true;
                         header('location:../content.php?module='.$module);
                     }
-                    if($upload_check==false){
-                        unlink($nama_file);
+                    if(file_exists($path)){
+                        unlink("$nama_folder/$nama_file");
                     }
                     if(!$upload_check and move_uploaded_file($tmp,$path)){
                         mysqli_query($con,"update lagu set file='$nama_file', durasi=$_POST[durasi] where id_lagu=$id");
@@ -101,8 +101,8 @@
                             $upload_check=true;
                             header('location:../content.php?module='.$module);
                         }
-                        if($upload_check==false){
-                            unlink($_POST["cover_lama"]);
+                        if(file_exists($path)){
+                            unlink("$nama_folder/$nama_file");
                         }
                         if(!$upload_check and move_uploaded_file($tmp,$path)){
                             mysqli_query($con,"update lagu set cover='$nama_file' where id_lagu=$id");
@@ -135,8 +135,8 @@
                             $upload_check=true;
                             header('location:../content.php?module='.$module);
                         }
-                        if($upload_check==false){
-                            unlink($_POST["cover_lama"]);
+                        if(file_exists($path)){
+                            unlink("$nama_folder/$nama_file");
                         }
                         if(!$upload_check and move_uploaded_file($tmp,$path)){
                             mysqli_query($con,"update album set cover='$nama_file' where id_album=$_POST[id_album]");
@@ -149,6 +149,17 @@
                 }
             header('location:../content.php?module='.$module);
         }
+
+    else if($module=='album' && $proses=='delete'){
+        $query="update album flag='0' where id_album=$_GET[id]";
+        $query2="update lagu set id_album=null where id_album=$_GET[id]";
+        if(mysqli_query($con, $query) && mysqli_query($con,$query2)){
+            header('location:../content.php?module='.$module);
+        }
+        else{
+            ?><script>alert("Album gagal dihapus");document.location.href="../content.php?module=album";</script><?php
+        }
+    }
 ?>
 
 

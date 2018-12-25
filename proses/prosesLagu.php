@@ -27,7 +27,7 @@
                         $upload_check=true;
                         header('location:../content.php?module='.$module);
                     }
-                    if($upload_check==false){
+                    if(file_exists($path)){
                         unlink($nama_file);
                     }
                     if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -55,7 +55,7 @@
                             $upload_check=true;
                             header('location:../content.php?module='.$module);
                         }
-                        if($upload_check==false){
+                        if(file_exists($path)){
                             unlink($_POST["cover_lama"]);
                         }
                         if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -89,7 +89,7 @@
                         $upload_check=true;
                         header('location:../content.php?module='.$module);
                     }
-                    if($upload_check==false){
+                    if(file_exists($path)){
                         unlink($_POST["file_lama"]);
                     }
                     if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -117,7 +117,7 @@
                             $upload_check=true;
                             header('location:../content.php?module='.$module);
                         }
-                        if($upload_check==false){
+                        if(file_exists($path)){
                             unlink($_POST["cover_lama"]);
                         }
                         if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -130,13 +130,24 @@
                     }
                 }
 
-        mysqli_query($con,"update lagu set judul='$_POST[judul]', id_genre='$_POST[genre]', tgl_rilis='$_POST[tgl_rilis]', id_artis=$_POST[artis], id_album=$_POST[album], id_label=$_POST[label]");
+        mysqli_query($con,"update lagu set judul='$_POST[judul]', id_genre='$_POST[genre]', tgl_rilis='$_POST[tgl_rilis]', id_artis=$_POST[artis], id_label=$_POST[label] where id_lagu=$_POST[id_lagu]");
 
         mysqli_query($con,"update artis set total_lagu=(total_lagu-1) where id_artis=$_POST[artis_lama]");
         mysqli_query($con,"update artis set total_lagu=(total_lagu+1) where id_artis=$_POST[artis]");
 
         header('location:../content.php?module='.$module); 
     }
+
+else if($module=='lagu' && $proses=='delete'){
+    $query="delete from lagu where id_lagu=$_GET[id]";
+    if(mysqli_query($con, $query)){
+        header('location:../content.php?module='.$module);
+    }
+    else{
+        ?><script>alert("Lagu gagal dihapus");document.location.href="../content.php?module='.$module"</script><?php
+    }
+}
+
 ?>
 
 

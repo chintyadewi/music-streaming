@@ -19,7 +19,7 @@ if($module=="user" && $proses=="input"){
                 $upload_check=true;
                 header('location:../content.php?module='.$module);
             }
-            if($upload_check==false){
+            if(file_exists($path)){
                 unlink($nama_file);
             }
             if(!$upload_check and move_uploaded_file($tmp,$path)){
@@ -28,7 +28,7 @@ if($module=="user" && $proses=="input"){
             }
             else{
                 ?><script>alert("Upload gambar gagal!"); </script><?php
-                header("Location: ../content.php?module='.$module");
+                header('location:../content.php?module='.$module);
             }
         }
 }
@@ -68,5 +68,19 @@ else if($module=="user" && $proses=="update"){
 
     mysqli_query($con, "update user set nama='$_POST[nama]', email='$_POST[email]', username='$_POST[username]', level='$_POST[level]' where id_user=$_POST[id_user]");
     header('location:../content.php?module='.$module);
+}
+
+else if($module=="user" && $proses=="delete"){
+    $updateLabel=mysqli_query($con, "update label set id_user=null where id_user=$_GET[id]");
+    $query="delete from user where id_user=$_GET[id]";
+
+    if($updateLabel && mysqli_query($con, $query)){
+        header('location:../content.php?module='.$module);
+    }
+    else{
+        ?><script>alert("Label gagal dihapus");
+            window.location.href="../content.php?module="+$module;</script>
+        <?php
+    }
 }
 ?>
