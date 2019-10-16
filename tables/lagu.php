@@ -50,7 +50,7 @@ if($level=="admin" or $level=="label" or $level=="user"){
                                     </div>
                                     <?php } ?>
                                     <a href="content.php?module=lagu&act=detail&id_lagu=<?php echo $row["id_lagu"]; ?>">
-                                    <img class="card-img-top" width="100%" height="30%" src="images/cover/<?php echo $row["cover"]; ?>" alt="Card image cap">
+                                    <img class="card-img-top" width="100%" height="200px" src="images/cover/<?php echo $row["cover"]; ?>" alt="Card image cap">
                                     </a>
                                         <div class="card-body text-center">
                                             <h5 class="card-title m-0"><strong><?php echo $row["judul"]; ?></strong></h5>

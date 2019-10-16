@@ -76,7 +76,7 @@ if($level=="admin" or $level=="label" or $level=="user"){
                                 <div class="col-3" id=<?php echo $row["id_artis"]; ?>>
                                     <div class="card data m-0">
                                     <a href="?module=artis&act=detail&id=<?php echo $id_artis; ?>">
-                                        <img class="card-img-top" width="100%" height="30%" src="images/artis/<?php echo $row["foto"]; ?>" alt="Card image cap">
+                                        <img class="card-img-top" width="100%" height="200px" src="images/artis/<?php echo $row["foto"]; ?>" alt="Card image cap">
                                     </a>
                                             <div class="card-body text-center">
                                                 <h5 class="card-title m-0"><strong><?php echo $row["artis"]; ?></strong></h5>
@@ -142,7 +142,7 @@ if($level=="admin" or $level=="label" or $level=="user"){
                                         <div class="col-3" id=<?php echo $row["id_lagu"]; ?>>
                                         <div class="card data m-0">
                                         <a href="?module=lagu&act=detail&id_lagu=<?php echo $row["id_lagu"]; ?>">
-                                        <img class="card-img-top" width="100%" height="30%" src="images/cover/<?php echo $row["cover"];?>" alt="Cover Image">
+                                        <img class="card-img-top" width="100%" height="200px" src="images/cover/<?php echo $row["cover"];?>" alt="Cover Image">
                                         </a>
                                             <div class="card-body text-center">
                                                 <h5 class="card-title m-0"><strong><?php echo $row["judul"]; ?></strong></h5>
@@ -200,7 +200,7 @@ if($level=="admin" or $level=="label" or $level=="user"){
                                         <div class="col-3" id=<?php echo $row["id_album"]; ?>>
                                         <div class="card data m-0">
                                         <a href="?module=album&act=detail&id=<?php echo $id_album; ?>">
-                                        <img class="card-img-top" width="100%" height="30%"  src="images/cover/<?php echo $row["cover"];?>" alt="Cover Image">
+                                        <img class="card-img-top" width="100%" height="200px"  src="images/cover/<?php echo $row["cover"];?>" alt="Cover Image">
                                         </a>
                                             <div class="card-body text-center">
                                                 <h5 class="card-title m-0"><strong><?php echo $row["nama"]; ?></strong></h5>
@@ -245,7 +245,7 @@ if($level=="admin" or $level=="label" or $level=="user"){
                                         <div class="col-3" id=<?php echo $row["id_artis"]; ?>>
                                         <div class="card data m-0">
                                         <a href="?module=artis&act=detail&id=<?php echo $id_artis; ?>">
-                                        <img class="card-img-top" width="100%" height="30%"  src="images/artis/<?php echo $row["foto"];?>" alt="Cover Image">
+                                        <img class="card-img-top" width="100%" height="200px"  src="images/artis/<?php echo $row["foto"];?>" alt="Cover Image">
                                         </a>
                                             <div class="card-body text-center">
                                                 <h5 class="card-title m-0"><strong><?php echo $row["nama"]; ?></strong></h5><?php
@@ -297,7 +297,7 @@ if($level=="admin" or $level=="label" or $level=="user"){
                                         <div class="col-3" id=<?php echo $row["id_genre"]; ?>>
                                         <div class="card data m-0">
                                         <a href="?module=genre&act=detail&id=<?php echo $id_genre; ?>">
-                                        <img class="card-img-top" width="100%" height="30%" src="images/cover/<?php echo $row["gambar"];?>" alt="Cover Image">
+                                        <img class="card-img-top" width="100%" height="200px" src="images/cover/<?php echo $row["gambar"];?>" alt="Cover Image">
                                         </a>
                                             <div class="card-body text-center">
                                                 <h5 class="card-title m-0"><strong><?php echo $row["nama"]; ?></strong></h5>

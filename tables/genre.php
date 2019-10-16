@@ -37,7 +37,7 @@ if($level=="admin" or $level=="label" or $level=="user"){
                                     </div>
                                     <?php } ?>
                                     <a href="?module=genre&act=detail&id=<?php echo $id_genre; ?>">
-                                        <img class="card-img-top" width="100%" height="30%" src="images/cover/<?php echo $row["gambar"]; ?>" alt="Card image cap">
+                                        <img class="card-img-top" width="100%" height="200px" src="images/cover/<?php echo $row["gambar"]; ?>" alt="Card image cap">
                                     </a>
                                         <div class="card-body text-center">
                                             <h5 class="card-title mb-2"><strong><?php echo $row["nama"]; ?></strong></h5>

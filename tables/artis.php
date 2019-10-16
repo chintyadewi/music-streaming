@@ -107,7 +107,7 @@ $proses='proses/prosesArtis.php';
                                             </div>
                                             <?php } ?>
                                             <a href="?module=artis&act=detail&id=<?php echo $id_artis; ?>">
-                                                <img class="card-img-top" width="100%" height="30%" src="images/artis/<?php echo $row["foto"]; ?>" alt="Card image cap">
+                                                <img class="card-img-top" width="100%" height="200px" src="images/artis/<?php echo $row["foto"]; ?>" alt="Card image cap">
                                             </a>
                                                     <div class="card-body text-center">
                                                     <h5 class="card-title m-0"><strong><?php echo $row["nama"]; ?></strong></h5>
